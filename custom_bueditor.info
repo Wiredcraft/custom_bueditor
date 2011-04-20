@@ -1,0 +1,8 @@
+name = "Custom BUEditor"
+description = "Customization and plugins for BUEditor."
+core = "7.x"
+package = "Content authoring"
+
+dependencies[] = "bueditor"
+
+version = "7.x-1.0"

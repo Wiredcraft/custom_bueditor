@@ -1,0 +1,124 @@
+array (
+  'name' => 'Markdown',
+  'pages' => 'node/*
+comment/*',
+  'excludes' => 'edit-log
+edit-menu-description',
+  'iconpath' => '%BUEDITOR/icons',
+  'spriteon' => '0',
+  'buttons' => 
+  array (
+    0 => 
+    array (
+      'title' => 'Bold',
+      'content' => '__%TEXT%__',
+      'icon' => 'bold.png',
+      'accesskey' => 'B',
+      'weight' => '0',
+    ),
+    1 => 
+    array (
+      'title' => 'Italic',
+      'content' => '_%TEXT%_',
+      'icon' => 'italic.png',
+      'accesskey' => 'I',
+      'weight' => '1',
+    ),
+    2 => 
+    array (
+      'title' => 'Quote',
+      'content' => 'js: E.wrapLines(\'\', \'-\', \'\',\'\');
+',
+      'icon' => 'quote.png',
+      'accesskey' => 'Q',
+      'weight' => '2',
+    ),
+    3 => 
+    array (
+      'title' => 'Head',
+      'content' => 'js:
+var tags = [[\'#\', \'Heading1\'], [\'##\', \'Heading2\'], [\'###\', \'Heading3\'], [\'####\', \'Heading4\'], [\'#####\', \'Heading5\'], [\'######\', \'Heading6\']];
+E.tagChooser(tags);
+$(\'a.choice-link\', E.quickPop).unbind(\'click\').each(function(i, a) {
+  $(a).click(function() {
+    E.wrapLines(\'\', tags[i][0], \'\',\'\');
+    return false;
+  });
+});',
+      'icon' => 'headers.png',
+      'accesskey' => 'H',
+      'weight' => '3',
+    ),
+    4 => 
+    array (
+      'title' => 'Ordered list.',
+      'content' => 'js: E.wrapLines(\'\', \'1. \', \'\', \'\');',
+      'icon' => 'ol.png',
+      'accesskey' => '0',
+      'weight' => '4',
+    ),
+    5 => 
+    array (
+      'title' => 'Unordered list.',
+      'content' => 'js: E.wrapLines(\'\', \'* \', \'\', \'\');',
+      'icon' => 'ul.png',
+      'accesskey' => 'U',
+      'weight' => '5',
+    ),
+    6 => 
+    array (
+      'title' => 'Link',
+      'content' => 'js:
+var S = E.getSelection();
+var M = S.match(/\\[([^\\[\\]]+)\\]\\((\\S+)\\s+"([^"]+)"\\s+\\)/) || [\'\', S, \'\'];
+var form = [ 
+ {name: \'href\', title: \'URL\', value: M[2], suffix: E.imce.button(\'attr_href\'), required: true},
+ {name: \'text\', value: M[1]},
+ {name: \'title\', value:M[3], suffix: E.imce.button(\'attr_title\')}
+];
+var opt = {title: \'Insert/edit link\'};
+opt.submit = function(tag, form) {
+  var el = form.elements;
+  var url = el[\'attr_href\'].value;
+  var txt = el[\'attr_text\'].value;
+  var title = el[\'attr_title\'].value;
+  E.replaceSelection(\'[\' + txt + \'](\' + url + \' "\' + title + \'" \' +\')\');
+};
+E.tagDialog(\'a\', form, opt);',
+      'icon' => 'link.png',
+      'accesskey' => 'L',
+      'weight' => '6',
+    ),
+    7 => 
+    array (
+      'title' => 'Image',
+      'content' => 'js:
+var S = E.getSelection();
+var M = S.match(/\\!\\[([^\\!\\[\\]]+)\\]\\((\\S+)\\s+"([^"]+)"\\s+\\)/) || [\'\', \'\', \'\'];
+var form = [
+ {name: \'src\', title: \'Image URL\', value: M[2], suffix: E.imce.button(\'attr_src\'), required: true},
+ {name: \'alt\', title: \'Alt\', value: M[1]},
+ {name: \'title\', value: M[3]}
+];
+var opt = {title: \'Insert/edit image\'};
+opt.submit = function(tag, form) {
+  var el = form.elements;
+  var src = el[\'attr_src\'].value;
+  var alt = el[\'attr_alt\'].value;
+  var title = el[\'attr_title\'].value;
+  E.replaceSelection(\'![\' + alt + \'](\' + src + \' "\' + title + \'" \' +\')\');
+};
+E.tagDialog(\'img\', form, opt);',
+      'icon' => 'image.png',
+      'accesskey' => 'M',
+      'weight' => '7',
+    ),
+  ),
+  'icons' => 
+  array (
+  ),
+  'library' => 
+  array (
+    '%BUEDITOR/library/bue.min.default.js' => '',
+  ),
+)

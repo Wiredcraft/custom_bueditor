@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function custom_bueditor_enable() {
+  // Import editors.
+  _custom_bueditor_import_editors();
+}
+
+/**
+ * Import editors.
+ */
+function _custom_bueditor_import_editors() {
+  module_load_include('inc', 'bueditor', 'admin/bueditor.admin');
+
+  $files = file_scan_directory(drupal_get_path('module', 'custom_bueditor') . '/editors', '/\.bueditor.txt$/');
+  foreach ($files as $file) {
+    $code = file_get_contents($file->uri);
+    if (empty($code)) {
+      continue;
+    }
+    $editor = bueditor_exec_editor_code($code);
+    if (empty($editor)) {
+      continue;
+    }
+    // Custom icons.
+    $editor->iconpath = drupal_get_path('module', 'custom_bueditor') . '/icons';
+    $editor = bueditor_save_import($editor);
+    if (empty($editor->eid)) {
+      continue;
+    }
+    // Save eids.
+    variable_set('custom_bueditor_eids', array_merge(variable_get('custom_bueditor_eids', array()), array($editor->eid => $editor->eid)));
+    bueditor_message_added($editor->name);
+  }
+}
+
+/**
+ * Implements hook_disable().
+ */
+function custom_bueditor_disable() {
+  module_load_include('inc', 'bueditor', 'admin/bueditor.admin');
+
+  // Remove editors.
+  foreach (variable_get('custom_bueditor_eids', array()) as $eid) {
+    bueditor_delete_editor($eid);
+  }
+
+  variable_del('custom_bueditor_eids');
+}
